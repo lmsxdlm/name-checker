@@ -5,6 +5,7 @@ import io
 
 # ================= 页面配置 =================
 st.set_page_config(page_title="名单对比工具", page_icon="📋", layout="wide")
+
 @st.cache_data
 def load_master_data(file_name="master_list.xlsx"):
     # 获取当前脚本(app.py)所在的绝对路径
@@ -15,7 +16,7 @@ def load_master_data(file_name="master_list.xlsx"):
     # 检查文件是否存在
     if not os.path.exists(file_path):
         st.error(f"❌ 找不到文件！在目录 {current_dir} 下没有找到 {file_name}。")
-        st.write("🔍 当前目录下实际存在的文件有：", os.listdir(current_dir)) # 这行代码能帮你看到服务器上到底有什么文件
+        st.write("🔍 当前目录下实际存在的文件有：", os.listdir(current_dir))
         return None
     
     try:
@@ -71,13 +72,13 @@ def extract_names_from_file(uploaded_file):
 
 # ================= 3. 主界面 =================
 st.title("📋 名单对比与差异分析工具")
-st.markdown("上传需要对比的名单文件（支持多个），系统会自动识别'姓名'列，并与内置的《总名单.xlsx》进行比对。")
+st.markdown("上传需要对比的名单文件（支持多个），系统会自动识别'姓名'列，并与内置的《总名单》进行比对。")
 
-# 加载总名单
-master_df = load_master_data("总名单.xlsx")
+# 加载总名单（这里改成了 master_list.xlsx）
+master_df = load_master_data("master_list.xlsx")
 
 if master_df is None:
-    st.error("❌ 未找到 '总名单.xlsx' 文件！请确保该文件与程序在同一目录下。")
+    st.error("❌ 未找到 'master_list.xlsx' 文件！请确保该文件与程序在同一目录下。")
     st.stop()
 
 # 显示总名单概览
@@ -165,4 +166,3 @@ if uploaded_files:
                     )
                 else:
                     st.info("🎉 没有异常人员！")
-                    
